@@ -1,6 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:gym_app/Entidades/treino.dart';
+import 'package:gym_app/Repository/treinoRepository.dart';
 
-List<String> itens = ['Supino reto', 'Supino Inclinado', 'Rosca direta'];
+//List<String> itens = ['Supino reto', 'Supino Inclinado', 'Rosca direta'];
+List<String> itens = [];
+var db = FirebaseFirestore.instance.collection('treino');
 
 class ViewCadastroTreino extends StatefulWidget {
   const ViewCadastroTreino({super.key});
@@ -10,6 +15,20 @@ class ViewCadastroTreino extends StatefulWidget {
 }
 
 class _ViewCadastroTreinoState extends State<ViewCadastroTreino> {
+  //final TreinoRepository _repository = TreinoRepository();
+
+  Future<void> extrair() async {
+    setState(() {
+      this.extrairDados();
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    extrair();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -112,6 +131,23 @@ class _ViewCadastroTreinoState extends State<ViewCadastroTreino> {
           ],
         ),
       ),
+    );
+  }
+
+  extrairDados() {
+    db.get().then(
+      (querySnapshot) {
+        print("Successfully completed");
+        for (var docSnapshot in querySnapshot.docs) {
+          String descricao = docSnapshot.get('descricao');
+          setState(() {
+            itens.add(descricao);
+            print(itens);
+          });
+          return descricao;
+        }
+      },
+      onError: (e) => print("Error completing: $e"),
     );
   }
 }

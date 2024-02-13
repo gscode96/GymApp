@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:gym_app/View/viewCadastro.dart';
-import 'package:gym_app/View/viewCadastroTreino.dart';
-import 'package:gym_app/View/viewInicial.dart';
+import 'package:gym_app/View/viewCadastroExercicio.dart';
 
-void main() {
-  runApp(const ViewCadastroTreino());
+import 'package:firebase_core/firebase_core.dart';
+import 'package:gym_app/View/viewCadastroTreino.dart';
+import 'firebase_options.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  runApp(ViewCadastroTreino());
 }

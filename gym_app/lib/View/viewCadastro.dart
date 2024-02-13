@@ -44,6 +44,8 @@ class _ViewCadastroState extends State<ViewCadastro> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         DropdownMenu(
+                          hintText: 'Qtd repetições',
+                          helperText: 'Qtd repetições',
                           initialSelection: treinos.first,
                           onSelected: (String? value) => setState(() {
                             Menu = value!;
