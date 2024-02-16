@@ -1,9 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:gym_app/Entidades/treino.dart';
-import 'package:gym_app/Repository/treinoRepository.dart';
+import 'package:gym_app/View/viewCadastroExercicio.dart';
 
-//List<String> itens = ['Supino reto', 'Supino Inclinado', 'Rosca direta'];
 List<String> itens = [];
 var db = FirebaseFirestore.instance.collection('treino');
 
@@ -118,7 +116,12 @@ class _ViewCadastroTreinoState extends State<ViewCadastroTreino> {
                   children: [
                     ElevatedButton(
                       onPressed: () {
-                        setState(() {});
+                        Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        ViewCadastroExercicio()))
+                            .then((value) => null);
                       },
                       style: const ButtonStyle(
                           mouseCursor: MaterialStateMouseCursor.clickable),
@@ -138,14 +141,17 @@ class _ViewCadastroTreinoState extends State<ViewCadastroTreino> {
     db.get().then(
       (querySnapshot) {
         print("Successfully completed");
+        List<String> descricaoItens = [];
         for (var docSnapshot in querySnapshot.docs) {
-          String descricao = docSnapshot.get('descricao');
-          setState(() {
-            itens.add(descricao);
-            print(itens);
-          });
-          return descricao;
+          dynamic descricao = docSnapshot.get('descricao');
+          descricaoItens.add(descricao);
         }
+        setState(() {
+          for (var item in descricaoItens) {
+            itens.add(item);
+          }
+          print(itens);
+        });
       },
       onError: (e) => print("Error completing: $e"),
     );

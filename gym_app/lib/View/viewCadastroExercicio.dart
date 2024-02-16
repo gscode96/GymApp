@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:gym_app/Entidades/treino.dart';
+import 'package:gym_app/View/viewCadastroTreino.dart';
 
 List<String> repeticoes = <String>[
   '1',
@@ -132,11 +133,12 @@ class _ViewCadastroExercicioState extends State<ViewCadastroExercicio> {
                         var db = FirebaseFirestore.instance;
                         db
                             .collection("treino")
-                            .doc(" YdNqv5Kf9xplYtRoUrnK")
+                            .doc()
                             .set(treino.toMap())
                             .then((_) => print('Documento salvo com sucesso!'))
                             .catchError((error) =>
                                 print('Erro ao salvar documento: $error'));
+                        Navigator.of(context).pop(context);
                       },
                       child: const Text('Salvar'),
                     )
